@@ -1,36 +1,47 @@
-<script setup>
-import { Anchor, AnchorItem } from "./components/anchor/index.js";
+<script setup lang="ts">
+import HelloWorld from './components/HelloWorld.vue'
+import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
-  <div class="target">
-    <div id="item-1" style="height: 60vh">1</div>
-    <div id="item-2" style="height: 20vh">2</div>
-    <div id="item-3" style="height: 60vh">3</div>
-    <div id="item-4" style="height: 60vh">4</div>
-    <div id="item-5" style="height: 50vh">5</div>
-    <div id="item-6" style="height: 40vh">6</div>
+  <header>
+    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
-    <Anchor style="position: fixed; top: 10vh; right: 6vw">
-      <AnchorItem link="item-1" text="item-1"></AnchorItem>
-      <AnchorItem link="item-2" text="item-2"></AnchorItem>
-      <AnchorItem link="item-3" text="item-3"></AnchorItem>
-      <AnchorItem link="item-4" text="item-4"></AnchorItem>
-      <AnchorItem link="item-6" text="item-5"></AnchorItem>
-    </Anchor>
-  </div>
+    <div class="wrapper">
+      <HelloWorld msg="You did it!" />
+    </div>
+  </header>
+
+  <main>
+    <TheWelcome />
+  </main>
 </template>
 
 <style scoped>
+header {
+  line-height: 1.5;
+}
+
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+  display: block;
+  margin: 0 auto 2rem;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
+
+  .logo {
+    margin: 0 2rem 0 0;
+  }
+
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
 }
 </style>

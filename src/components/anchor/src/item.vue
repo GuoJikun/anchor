@@ -9,10 +9,11 @@
   </div>
 </template>
 
-<script>
-import { getOffsetTop } from "./utils";
+<script lang="ts">
+import { inject } from "vue";
+import { getOffsetTop, type AnchorContainer } from "./utils";
 export default {
-  name: "AnchorItem",
+  name: "IvyAnchorItem",
   props: {
     text: {
       type: String,
@@ -23,44 +24,35 @@ export default {
       default: "#",
     },
   },
-  data() {
-    return {
-      offsetTop: 0,
-    };
-  },
   inject: ["anchor"],
-  mounted() {
-    this.init();
-  },
-  methods: {
-    handlerClick(ev) {
-      const { hash, container } = this.anchor;
+  setup(props) {
+    const anchorContainer = inject("anchorContainer") as AnchorContainer;
+    const hash = inject("hash");
+    const target = document.querySelector(`#${props.link}`);
+    const offsetTop: number = getOffsetTop(
+      target as HTMLElement,
+      anchorContainer as AnchorContainer
+    );
+
+    const handlerClick = (ev: any) => {
       if (!hash) {
         ev.preventDefault();
 
-        const el = document.querySelector(`#${this.link}`);
+        const el = document.querySelector(`#${props.link}`);
         if (el) {
           const rect = el.getBoundingClientRect();
-          console.log(rect);
-          let target = null;
-          if (container === null) {
-            target = document.querySelector("body");
-          } else {
-            target = document.querySelector(container);
-          }
-          console.log(target.scrollTop);
-          target.scrollTo({
+          anchorContainer.scrollTo({
             top: rect.top,
             behavior: "smooth",
           });
         }
         return false;
       }
-    },
-    init() {
-      this.offsetTop = getOffsetTop(document.querySelector(`#${this.link}`));
-      console.log(this.offsetTop);
-    },
+    };
+    return {
+      handlerClick,
+      offsetTop,
+    };
   },
 };
 </script>
